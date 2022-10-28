@@ -1,0 +1,77 @@
+#define _CRT_SECURE_NO_WARNINGS 1
+
+#include<stdio.h>
+
+void menu()
+{
+	printf("***1.add      2.sub***\n");
+	printf("***3.mul      4.div***\n");
+	printf("***5.xor      6.awy***\n");
+	printf("***7.awh           ***\n");
+	printf("***     0.exit     ***\n");
+}
+
+int add(int x, int y)//加
+{
+	return x + y;
+}
+int sub(int x, int y)//减
+{
+	return x - y;
+}
+int mul(int x, int y)//乘
+{
+	return x*y;
+}
+int div(int x, int y)//取商
+{
+	return x / y;
+}
+int xor(int x, int y)//按位异或
+{
+	return x^y;
+}
+int awy(int x, int y)//按位与
+{
+	return x&y;
+}
+int awh(int x, int y)//按位或
+{
+	return x | y;
+}
+
+void evaluator()
+{
+	int input = 0;
+	int x = 0;
+	int y = 0;
+	//函数指针数组-称为"转移表"
+	//相比switch-case分支语句，当我增加函数个数时（类型要相同），不用多写case语句，使得代码不会很长。
+	int(*parr[])(int, int) = { 0,add, sub, mul, div ,xor,awy,awh};
+	do
+	{
+		menu();
+		printf("请输入:>");
+		scanf("%d", &input);
+		if (1 <= input && input <= 8)
+		{
+			printf("请输入两个参数:>");
+			scanf("%d%d", &x, &y);
+			printf("%d\n", parr[input](x, y));
+		}
+		else if (input == 0)
+		{
+			printf("退出\n");
+		}
+		else
+		{
+			printf("选择错误\n");
+		}
+	} while(input);
+}
+
+int main()
+{
+	evaluator();
+	return 0;
+}
