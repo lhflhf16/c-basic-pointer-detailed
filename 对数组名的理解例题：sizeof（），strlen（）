@@ -1,0 +1,61 @@
+#include<stdio.h>
+#include<string.h>
+
+int main()
+{
+	//数组名表示首元素地址，除了以下两种情况：
+	//1.sizeof(数组名)-必须只有单独一个数组名-数组名表示整个数组；
+	//2.&数组名-必须只有单独一个数组名-数组名表示整个数组；
+
+	//一维数组
+	int a[] = { 1, 2, 3, 4 };
+	//方法：分析a表示什么。
+	printf("%d\n", sizeof(a));//16-sizeof（a）整个数组的大小4*4；
+	printf("%d\n", sizeof(a+0));//4/8-这里不是单独的a。a表示首元素地址，首元素地址+0依然为首地址，地址大小4（32位）/8（64位）；
+	printf("%d\n", sizeof(*a));//4-a表首地址，解引用得到int型的1，大小4；
+	printf("%d\n", sizeof(a+1));//4/8-a表首地址，+1表示第二个元素的地址；
+	printf("%d\n", sizeof(a[1]));//4-a表首元素地址，首地址+[i]表示下标为1的元素，int型的2，大小4；
+	printf("%d\n", sizeof(&a));//4/8-&a表示整个数组的地址；
+	printf("%d\n", sizeof(*&a));//16-&a表示整个数组的地址，对整个数组的地址解引用得到整个数组；
+	printf("%d\n", sizeof(&a+1));//4/8-&a表示整个数组的地址，+1是下一个数组的地址；
+	printf("%d\n", sizeof(&a[0]));//4/8-a[0]表示第一个元素，&a[0]表示第一个元素的地址；
+	printf("%d\n", sizeof(&a[0]+1));//4/8-&a[0]表示第一个元素的地址，+1表示第二个元素的地址；
+
+	//字符数组
+	char arr[] = { 'a', 'b', 'c', 'd', 'e', 'f' };
+	printf("%d\n", sizeof(arr));//6 - arr表示整个数组；
+	printf("%d\n", sizeof(arr+0));//4/8 - arr表示首地址；
+	printf("%d\n", sizeof(*arr));//1 - arr首地址，*arr首元素；
+	printf("%d\n", sizeof(arr[1]));//1 - arr首地址，arr[1]下标为1的元素；
+	printf("%d\n", sizeof(&arr));//4/8 - arr表示整个数组，&arr整个数组的地址；
+	printf("%d\n", sizeof(&arr+1));//4/8 - arr整个数组，&arr+1表示下个数组的地址；
+	printf("%d\n", sizeof(&arr[0]+1));//4/8 - arr首地址&arr[0]，取首元素的地址，+1第二个元素的地址；
+
+	//strlen是通过传给它的字符串中元素的地址一个一个向后寻找直到遇见'\0'；
+	printf("%d\n", strlen(arr));//随机值 - arr首元素地址
+	printf("%d\n", strlen(arr+0));//随机值 - arr首元素地址
+	//printf("%d\n", strlen(*arr));//错误 - arr首元素地址，解引用得到'a'ASCII码值为97，这时strlen会把97当作地址去访问属于非法访问，参数不是字符串元素的地址
+	//printf("%d\n", strlen(arr[1]));//错误 - arr首元素地址，arr[1]得到'b',参数不是字符串元素的地址
+	printf("%d\n", strlen(&arr));//随机值 - arr整个数组，&arr整个数组的地址，由这个地址开始一字节一字节向后寻找'\0'
+	printf("%d\n", strlen(&arr + 1));//随机值减6 - 由这个地址开始一字节一字节向后寻找'\0'
+	printf("%d\n", strlen(&arr[0]+1));//随机值比上面的少1 - 由第二个元素的地址开始一字节一字节向后寻找'\0'
+
+	char arr[] = "abcdef";// {abcdef'\0'} 注意与 char arr[] = { 'a', 'b', 'c', 'd', 'e', 'f' };相区别
+	printf("%d\n", sizeof(arr));//7 - arr整个数组，字符串结尾的'\0'不要忘了
+	printf("%d\n", sizeof(arr+0));//4/8 - arr首地址，arr+0首地址
+	printf("%d\n", sizeof(*arr));//1 - arr首地址，*arr首元素
+	printf("%d\n", sizeof(arr[1]));//1 - arr首地址，arr[1]下标为1的元素
+	printf("%d\n", sizeof(&arr));//4/8 - arr整个数组，&arr整个数组的地址
+	printf("%d\n", sizeof(&arr+1));//4/8 - arr整个数组，&arr+1下个数组的地址
+	printf("%d\n", sizeof(&arr[0]+1));//4/8 - arr首地址，&arr[0]+1第二个元素的地址
+
+	printf("%d\n", strlen(arr));//6 - arr首地址，往后寻找到'\0'之前。
+	printf("%d\n", strlen(arr+0));//6 - arr首地址
+	//printf("%d\n", strlen(*arr));//错误 - arr首地址，*arr首元素'a'的ASCII码值97，会非法访问地址为97的内存
+	//printf("%d\n", strlen(arr[1]));//错误 - 理由同上
+	printf("%d\n", strlen(&arr));//6 - arr整个数组，&arr整个数组的地址开始向后寻找'\0'，但是&arr类型为数组指针char (*) [7]，而strlen参数为char*，会报警告。
+	printf("%d\n", strlen(&arr+1));//随机值 - arr整个数组，&arr+1数组结尾的地址
+	printf("%d\n", strlen(&arr[0]+1));//5 - arr首地址，&arr[0]+1第二个元素的地址从这里开始向后寻找'\0'
+
+	return 0;
+}
