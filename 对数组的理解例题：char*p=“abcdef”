@@ -1,0 +1,24 @@
+#include<stdio.h>
+#include<string.h>
+int main()
+{
+	char*p = "abcdef";//"abcdef"是常量字符串，这里是把a的地址存到p中 可以类比char arr[]="abcdef"区别在于前者字符串不可被改动。
+
+	printf("%d\n", sizeof(p));//4/8 - p是指针，存的是a的地址
+	printf("%d\n", sizeof(p+1));//4/8 - p+1是指针，存的是b的地址
+	printf("%d\n", sizeof(*p));//1 - p指向a，*p得到a
+	printf("%d\n", sizeof(p[0]));//1 - p[0]得到常量字符串的a元素，理解为arr[0]==*（arr+0） p[0]==*（p+0）
+	printf("%d\n", sizeof(&p)); //4/8 - &p取出p指针的地址
+	printf("%d\n", sizeof(&p+1));//4/8 - &p+1 p指针的地址加1还是地址
+	printf("%d\n", sizeof(&p[0]+1));//4/8 - &p[0]取出a的地址，&p[0]+1得到b的地址
+
+	printf("%d\n", strlen(p));//6 - p存放首元素地址
+	printf("%d\n", strlen(p+1));//5 - p+1存放b的地址
+	//printf("%d\n", strlen(*p));//err - p存放首元素地址，*p得到a，将a的ASCII码值97作为地址，非法访问。
+	//printf("%d\n", strlen(p[0]));//err - p[0]首元素
+	printf("%d\n", strlen(&p));//随机值 - p存放首元素地址，&p得到p的地址,详细解释在笔记第五章第六页
+	printf("%d\n", strlen(&p + 1));//随机值 - &p+1结尾处的地址，详细解释在笔记第五章第六页
+	printf("%d\n", strlen(&p[0]+1));//5 - &p[0]+1表示b的地址
+
+	return 0;
+}
