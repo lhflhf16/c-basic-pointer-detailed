@@ -1,0 +1,33 @@
+#define _CRT_SECURE_NO_WARNINGS 1
+
+/*思路：
+char* strcat(char* destination, const char* source)
+将source所指向的字符串（包括'\0'）添加到destination指向字符串的结尾处覆盖'\0'*/
+#include<stdio.h>
+#include<assert.h>
+
+char* my_strcat(char* destination, const char* source)
+{
+	assert(destination != NULL);
+	assert(source != NULL);
+	char* star = destination;//保留destination的初始值，作为返回值
+	//使destination指向'\0'处
+	while (*destination != '\0')
+	{
+		destination++;
+	}
+	//将source指向的字符赋给destination，并且将source结尾的'\0'也赋给destination
+	while (*destination++ = *source++)
+	{
+		;
+	}
+	return star;
+}
+
+int main()
+{
+	char arr[40] = "abcedf";
+	my_strcat(arr, "ghijk");
+	printf("%s\n", arr);
+	return 0;
+}
