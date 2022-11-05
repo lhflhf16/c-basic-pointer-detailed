@@ -1,0 +1,27 @@
+#define _CRT_SECURE_NO_WARNINGS 1
+
+/*思路：
+char* strcmp(char* destination, const char* source)*/
+#include<stdio.h>
+#include<assert.h>
+
+char* my_strcpy(char* destination, const char* source)
+{
+	char* str = destination;
+	assert(destination != NULL);
+	assert(source != NULL);
+	//先赋值再++，最后判断，可以保证'\0'也会赋值给destination指向的字符串
+	while ((*destination++ = *source++)!='\0')
+	{
+		;
+	}
+	return str;
+}
+
+int main()
+{
+	char arr1[] = "*******";
+	char arr2[] = "abcde";
+	printf("%s\n", my_strcpy(arr1, arr2));
+	return 0;
+}
