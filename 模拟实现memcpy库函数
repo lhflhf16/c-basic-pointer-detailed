@@ -1,0 +1,28 @@
+#define _CRT_SECURE_NO_WARNINGS 1
+
+#include<stdio.h>
+#include<assert.h>
+
+void* my_memcpy(void* dest, const void* scr, int size_t)
+{
+	void* ret = dest;
+	assert(dest != NULL);
+	assert(scr != NULL);
+	int i = 0;
+	for (i = 0; i < size_t; i++)
+	{
+		*((char*)dest+i) = *((char*)scr+i);
+		//((char*)dest)++;
+		//((char*)scr)++;
+	}
+	return ret;
+}
+
+int main()
+{
+	char arr1[] = "abcd****";
+	char arr2[] = "ABCD";
+	my_memcpy(arr1+2, arr1, 4);
+	printf("%s\n", arr1);//ababab**
+	return 0;
+}
