@@ -1,0 +1,57 @@
+#define _CRT_SECURE_NO_WARNINGS 1
+
+//模拟实现memmove库函数
+#include<stdio.h>
+
+/*思路：
+void* memmove(void* dest, void* scr, int size_t)
+可以将源地址向后n个字节拷贝到目的地地址处，而且当两区域相互重叠时也可以实现
+只是源字符串会被改变。
+a b *c d \e f* &g h\ i j& k l
+例如：将*c d e f*目的地字符串 用\e f g h\源字符串改变时，会发现e f 重叠了
+这时因为 dest地址小于scr地址 源字符串会发生改变，所以要从左到右依次拷贝，这样重叠部分
+先拷贝就不会丢失这部分数据
+将&g h i j&用用\e f g h\源字符串改变时dest地址高于scr地址，应从右到左依次拷贝
+
+****但是，当我编写完memcpy库函数时发现，不用判断重合
+****即当dest<str时，不管重不重合都可以从左到右直接拷贝；dest>str时，不管重不重合都可以从右到左拷贝*/
+
+void* my_memmove(void* dest, void* scr, int size_t)
+{
+	void* star = dest;
+	if ((char*)dest <= (char*)scr)//从左到右拷贝
+	{
+		int i = 0;
+		for (i = 0; i < size_t; i++)
+		{
+			*((char*)dest) = *((char*)scr);
+			((char*)dest)++;
+			((char*)scr)++;
+		}
+	}
+	else//从右到左拷贝
+	{
+		char* dest_right = (char*)dest + size_t - 1;//指向最右端（在size_t个字节内）
+		char* scr_right = (char*)scr + size_t - 1;//指向最右端（在size_t个字节内）
+		int i = 0;
+		for (i = 0; i < size_t; i++)
+		{
+			*dest_right = *scr_right;
+			dest_right--;
+			scr_right--;
+		}
+	}
+	return star;
+}
+
+int main()
+{
+	int arr[40] = {0,1,2,3,4,5,6};
+	my_memmove(arr+2, arr ,12);
+	int i = 0;
+	for (i = 0; i < 9; i++)
+	{
+		printf("%d ", arr[i]);
+	}
+	return 0;
+}
