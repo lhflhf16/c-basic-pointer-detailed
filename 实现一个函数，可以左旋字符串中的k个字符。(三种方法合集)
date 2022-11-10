@@ -1,0 +1,81 @@
+#define _CRT_SECURE_NO_WARNINGS 1
+
+#include<stdio.h>
+#include<string.h>
+#include<assert.h>
+
+//三部左旋法
+//abcdef想要左旋2个字符得cdefab
+//ab cdef 逆序
+//ba fedc
+//bafedc 逆序
+//cdefab
+void reverse(char* left, char* right)
+{
+	while (left<right)
+	{
+		char tmp = *left;
+		*left = *right;
+		*right = tmp;
+		left++;
+		right--;
+	}
+}
+void three_left_move(char* str, int n)
+{
+	assert(str);
+	int len = strlen(str);
+	n = n%len;//当左旋len次后字符串又会回到0次左旋的状态，所以字符串左旋（包括初始）总共有len种状态
+	reverse(str, str + n - 1);
+	reverse(str + n, str + len - 1);
+	reverse(str, str + len - 1);
+}
+
+//暴力左旋（方法二）
+void left_move_2(char* str, int n)
+{
+	assert(str);
+	int j = 0;
+	for (j = 0; j < n; j++)
+	{
+		//左旋一个字符
+		//1.先将第一个元素取出
+		char tmp = *str;
+		//2.将后面的元素依次向前移动
+		int i = 0;
+		int len = strlen(str);
+		for (i = 0; i < len - 1; i++)
+		{
+			str[i] = str[i + 1];
+		}
+		str[len - 1] = tmp;
+	}
+}
+
+//暴力左旋（方法一）
+void left_move_1(char* str, int n)
+{
+	assert(str);
+	int len = strlen(str);
+	int i = 0;
+	for (i = 0; i < n; i++)
+	{
+		//左旋一次两两交换
+		int j = 0;
+		for (j = 0; j < len - 1; j++)
+		{
+			char tmp = str[j];
+			str[j] = str[j + 1];
+			str[j + 1] = tmp;
+		}
+	}
+}
+int main()
+{
+	char arr1[] = "abcdef";
+	left_move_1(arr1, 7);
+	//left_move_2(arr1, 7);//移动的字符=n%len
+	//three_left_move(arr1, 7);
+	printf("%s\n", arr1);
+	return 0;
+}
