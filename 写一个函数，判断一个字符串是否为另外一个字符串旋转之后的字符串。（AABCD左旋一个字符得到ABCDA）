@@ -1,0 +1,48 @@
+#define _CRT_SECURE_NO_WARNINGS 1
+
+#include<stdio.h>
+#include<string.h>
+
+int Comparison_fun(char* arr1, char* arr2, int str)//对比函数
+{
+	int i = 0;
+	for (i = 0; i < str; i++)
+	{
+		if (arr1[i] != arr2[i])
+		{
+			return 0;
+		}
+	}
+	return 1;
+}
+
+int function(char* arr1, char* arr2, int str)
+{
+	int i = 0;
+	for (i = 0; i < str; i++)//一个字符串旋转字符串长度次数则回到一开始的顺序
+	{
+		int j = 0;
+		for (j = 0; j < str - 1; j++)//相邻字符交换来旋转字符
+		{
+			char tmp = arr1[j];
+			arr1[j] = arr1[j + 1];
+			arr1[j + 1] = tmp;
+		}
+		int ret = Comparison_fun(arr1, arr2,str);//对比arr1和arr2相同返回1，不同返回0
+		if (1 == ret)
+		{
+			return 1;
+		}
+	}
+	return 0;//所有字符都旋转过后没有相同则说明旋转得不到arr2
+}
+
+int main()
+{
+	char arr1[] = "AABCD";
+	char arr2[] = "ABCDA";
+	int str = strlen(arr1);
+	int sum=function(arr1, arr2,str);
+	printf("%d\n", sum);
+	return 0;
+}
