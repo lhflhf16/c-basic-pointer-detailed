@@ -1,0 +1,45 @@
+//abcdabcd字符串就包含了所有左旋的情况，创建新字符串，所以arr1的空间要够大，才不会越界访问（对比方法三）
+int function_3(char* arr1, char* arr2)
+{
+	assert(arr1);
+	assert(arr2);
+	//arr1与arr2长度是否相等
+	if (strlen(arr1) != strlen(arr2))
+	{
+		return 0;
+	}
+	//先创建字符串abcdabcd
+	int i = 0;
+	int len = strlen(arr1);
+	for (i = 0; i <len ; i++)
+	{
+		arr1[i + len] = arr1[i];
+	}
+	//对比arr1和arr2
+	for (i = 0; i < len; i++)
+	{
+		//改变对比起始点
+		int ret = cmp(arr1 + i, arr2);
+		if (ret == 1)
+		{
+			return 1;
+		}
+	}
+	return 0;
+}
+
+int main()
+{
+	char arr1[30] = "abcd";
+	char arr2[] = "dacb";
+	int ret = function_3(arr1, arr2);
+	if (ret)
+	{
+		printf("YES\n");
+	}
+	else
+	{
+		printf("NO\n");
+	}
+	return 0;
+}
