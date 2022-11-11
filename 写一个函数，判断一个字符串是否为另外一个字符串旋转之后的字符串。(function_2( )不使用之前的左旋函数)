@@ -1,0 +1,94 @@
+//abcdabcd字符串就包含了所有左旋的情况
+//不用创建一个新字符串只要利用abcd重复对比就行（对比方法二）
+int function_2(char* arr1, const char* arr2)
+{
+	if (strlen(arr1) != strlen(arr2))
+	{
+		return 0;
+	}
+	int len = strlen(arr1);
+	int i = 0;
+	for (i = 0; i < len; i++)
+	{
+		//1.abcd
+		//  cdab
+		if (i == 0)
+		{
+			int j = 0;
+			for (j = 0; j < len; j++)
+			{
+				if (arr1[j] != arr2[j])
+				{
+					break;
+				}
+			}
+			if (j == len)
+			{
+				return 1;
+			}
+		}
+		//2.abcd
+		//   cdab
+		else
+		{
+			int j = 0;
+			//对比重合部分
+			for (j = 0; j < len - i; j++)
+			{
+				if (arr1[j + i] != arr2[j])
+				{
+					break;
+				}
+			}
+			int k = 0;
+			//对比未重合部分
+			for (k = 0; k < i; k++)
+			{
+				if (arr1[k] != arr2[k + len - i])
+				{
+					break;
+				}
+			}
+			//重合部分与未重合部分都相同时返回1
+			if ((j == len - i) && (k == i))
+			{
+				return 1;
+			}
+		}
+	}
+	return 0;
+}
+
+//依次列出左旋结果，再做判断(对比方法一)
+int function_1(char* arr1, const char* arr2)
+{
+	int len = strlen(arr1);
+	int i = 0;
+	for (i = 0; i < len; i++)
+	{
+		if (strcmp(arr1, arr2) == 0)
+		{
+			return 1;
+		}
+		three_left_move(arr1, 1);
+	}
+	return 0;
+}
+
+int main()
+{
+	char arr1[] = "abcd";
+	char arr2[] = "dabc";
+	//左旋arr1，判断每次左旋后是否等于arr2
+	//int ret = function_1(arr1, arr2);
+	int ret = function_2(arr1, arr2);
+	if (ret)
+	{
+		printf("YES\n");
+	}
+	else
+	{
+		printf("NO\n");
+	}
+	return 0;
+}
