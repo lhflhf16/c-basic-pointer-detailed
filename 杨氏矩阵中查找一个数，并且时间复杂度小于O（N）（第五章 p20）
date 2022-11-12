@@ -1,0 +1,75 @@
+#include<stdio.h>
+#include<assert.h>
+// 1  2  3  4
+// 5  6  7  8
+// 9 10 11 12
+//13 14 15 16
+
+struct coordinate
+{
+	int x;
+	int y;
+};
+
+//注意函数返回类型，当不查看下标时，记得改回int
+struct coordinate FindNum(int(*arr)[4], int k, int row, int col)
+{
+	assert(arr);
+	int x = 0;
+	int y = col - 1;
+	struct coordinate ret;
+	while (x<=row-1 && y>=0)
+	{
+		//k与最右上角的元素4比较
+		//1.k<4;说明k不在最后一列，这时减去一列，最右上角为3
+		if (k < arr[x][y])
+		{
+			y--;
+		}
+		//2.k>4;说明k不在第一行，这时减去一行，最右上角为8
+		else if (k> arr[x][y])
+		{
+			x++;
+		}
+		//3.k=4;找到k返回1
+		else
+		{
+			//return 1;
+			//如果想返回这个数的坐标（两个数的返回，使用结构体）
+			ret.x = x;
+			ret.y = y;
+			return ret;
+		}
+	}
+	//出循环则说明找不到，返回0
+	//return 0;
+	//因为返回的是坐标结构体这里找不到不能返回（0，0）
+	ret.x = -1;
+	ret.y = -1;
+	return ret;
+}
+int main()
+{
+	int arr[4][4] = { { 1, 2, 3, 4 }, { 5, 6, 7, 8 }, { 9, 10, 11, 12 }, { 13, 14, 15, 16 } };
+	int k = 13;
+	//int ret = FindNum(arr, k,4,4);
+	//if (ret == 1)
+	//{
+	//	printf("YES\n");
+	//}
+	//else
+	//{
+	//	printf("NO\n");
+	//}
+	//返回类型是结构体
+	struct coordinate ret = FindNum(arr, k, 4, 4);
+	if (ret.x >= 0 && ret.y >= 0)
+	{
+		printf("下标:x=%d y=%d\n", ret.x, ret.y);
+	}
+	else
+	{
+		printf("找不到\n");
+	}
+	return 0;
+}
